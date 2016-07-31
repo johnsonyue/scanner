@@ -2,6 +2,7 @@ import urllib
 import os
 import signal
 import HTMLParser
+import sys
 
 class RouteviewsParser(HTMLParser.HTMLParser):
 	def __init__(self):
@@ -65,6 +66,7 @@ class Routeviews:
 		file_name = target_url.split('/')[-1];
 		self.snapshot = file_name;
 		if not os.path.exists(self.cwd+"/"+file_name):
+			print target_url;
 			urllib.urlretrieve(target_url, self.cwd+"/"+file_name);
 		
 		file_path = self.cwd+"/"+self.snapshot;
@@ -87,6 +89,10 @@ def usage():
 def main(argv):
 	if (len(argv) < 1):
 		usage();
-	cwd = argv[0];
+		exit();
+	cwd = argv[1];
 	routeviews = Routeviews(cwd);
 	print routeviews.get_latest_snapshot(),;
+
+if __name__ == "__main__":
+	main(sys.argv);

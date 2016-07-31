@@ -2,6 +2,7 @@ import os
 import urllib
 import math
 import random
+import sys
 
 class TargetPool():
 	def __init__(self, cwd):
@@ -128,9 +129,10 @@ def usage():
 def main(argv):
 	if (len(argv)<3):
 		usage();
-	cc = argv[0];
-	cwd = argv[1];
-	out_file = argv[2];
+		exit();
+	cc = argv[1];
+	cwd = argv[2];
+	out_file = argv[3];
 
 	#print pool.get_class_c_ip_from_pfx("1.2.0.0/15");
 	#pool.get_target_pfx_list_by_cc("CN","pfx_list_cn");
