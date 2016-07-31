@@ -4,7 +4,7 @@ import math
 import random
 
 class TargetPool():
-	def __init__(self):
+	def __init__(self, cwd):
 		self.rir_url_list = [
 			"http://ftp.ripe.net/pub/stats/ripencc/delegated-ripencc-latest",
 			"http://ftp.apnic.net/pub/stats/apnic/delegated-apnic-latest",
@@ -14,7 +14,7 @@ class TargetPool():
 		];
 		self.snapshot = "";
 
-		self.cwd = "target/";
+		self.cwd = cwd;
 		if (not os.path.exists(self.cwd)):
 			os.makedirs(self.cwd);
 
@@ -121,7 +121,22 @@ class TargetPool():
 		
 		fp.close();
 
-pool = TargetPool();
-#print pool.get_class_c_ip_from_pfx("1.2.0.0/15");
-#pool.get_target_pfx_list_by_cc("CN","pfx_list_cn");
-pool.get_target_ip_list_from_pfx("CN","ip_list_cn");
+def usage():
+	print "python target.py cc cwd out_file";
+	print "e.g. python target.py CN target/ ip_list_cn";
+
+def main(argv):
+	if (len(argv)<3):
+		usage();
+	cc = argv[0];
+	cwd = argv[1];
+	out_file = argv[2];
+
+	#print pool.get_class_c_ip_from_pfx("1.2.0.0/15");
+	#pool.get_target_pfx_list_by_cc("CN","pfx_list_cn");
+
+	pool = TargetPool(cwd);
+	pool.get_target_ip_list_from_pfx(cc, out_file);
+
+if __name__ == "__main__":
+	main(sys.argv);

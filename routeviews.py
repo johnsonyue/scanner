@@ -33,10 +33,9 @@ class RouteviewsParser(HTMLParser.HTMLParser):
 			self.file.append(href_value);
 
 class Routeviews:
-	def __init__(self):
+	def __init__(self,cwd):
 		self.snapshot = "";
-		self.cwd = "target";
-		self.bgpdump_path = "bgpdump";
+		self.cwd = cwd;
 	
 	def sig_handler(self, sig, frame):
 		if (self.snapshot != ""):
@@ -81,5 +80,13 @@ class Routeviews:
 			return parser.file[-1];
 		return "";
 
-routeviews = Routeviews();
-print routeviews.get_latest_snapshot(),;
+def usage():
+	print "python routeviews.py cwd";
+	print "e.g. python routeviews target/";
+
+def main(argv):
+	if (len(argv) < 1):
+		usage();
+	cwd = argv[0];
+	routeviews = Routeviews(cwd);
+	print routeviews.get_latest_snapshot(),;
