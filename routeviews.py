@@ -66,7 +66,7 @@ class Routeviews:
 		file_name = target_url.split('/')[-1];
 		self.snapshot = file_name;
 		if not os.path.exists(self.cwd+"/"+file_name):
-			print target_url;
+			#print target_url;
 			urllib.urlretrieve(target_url, self.cwd+"/"+file_name);
 		
 		file_path = self.cwd+"/"+self.snapshot;
