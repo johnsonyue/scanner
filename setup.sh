@@ -1,11 +1,13 @@
 #!/bin/bash
-env_dir=$(awk -F " *= *" '/cwd/ {print $2}' config.ini)
+env_dir=$(awk -F " *= *" '/env_dir/ {print $2}' config.ini)
 
 cwd=`pwd`
+
+mkdir -p $env_dir
 cd $env_dir
-apt-get update
-apt-get upgrade
-apt-get install build-essential
+#apt-get update
+#apt-get -y upgrade
+apt-get install -y build-essential
 
 #libbgpdump
 apt-get install libbz2-dev zlib1g-dev
@@ -35,7 +37,7 @@ cd ../
 
 #midar-full(local).
 #more reference at: http://www.caida.org/tools/measurement/midar/README.midar
-apt-get install perl ruby ruby-dev
+apt-get install -y perl ruby ruby-dev
 
 wget http://www.caida.org/tools/measurement/mper/downloads/mper-0.4.1.tar.gz
 tar zxvf mper-0.4.1.tar.gz
@@ -52,8 +54,8 @@ wget http://www.caida.org/tools/utilities/arkutil/downloads/arkutil-0.13.5.gem
 gem install arkutil-0.13.5.gem
 
 wget http://www.caida.org/tools/measurement/midar/downloads/midar-0.6.0.tar.gz
-tar zxvf midar.tar.gz
-cd midar
+tar zxvf midar-0.6.0.tar.gz
+cd midar-0.6.0/
 ./configure
 make
 cd ../

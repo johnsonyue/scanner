@@ -13,6 +13,9 @@ midar=$env_dir/$midar_path
 interface=$(awk -F " *= *" '/interface/ {print $2}' config.ini)
 mper_port=$(awk -F " *= *" '/mper_port/ {print $2}' config.ini)
 
+[ ! -d $cwd ] && echo "mkdir -p $cwd"
+[ ! -d $cwd ] && mkdir -p $cwd
+
 #get and dump latest bgp snapshot and get the target ip list.
 echo "bgpdump -m \`python routeviews.py $cwd\` | python target.py "CN" $cwd $target_file";
 bgpdump -m `python routeviews.py $cwd` | python target.py "CN" $cwd $target_file
