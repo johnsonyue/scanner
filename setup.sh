@@ -1,10 +1,11 @@
 #!/bin/bash
-cwd=""
+env_dir=$(awk -F " *= *" '/cwd/ {print $2}' config.ini)
 
-cd $cwd
-
+cwd=`pwd`
+cd $env_dir
 apt-get update
 apt-get upgrade
+apt-get install build-essential
 
 #libbgpdump
 apt-get install libbz2-dev zlib1g-dev
@@ -23,3 +24,39 @@ cd scamper-cvs-20141211e/
 make
 make install
 cd ../
+
+#iffinder
+wget http://www.caida.org/tools/measurement/iffinder/download/iffinder-1.38.tar.gz
+tar zxvf iffinder-1.38.tar.gz
+cd iffinder-1.38
+./configure
+make
+cd ../
+
+#midar-full(local).
+#more reference at: http://www.caida.org/tools/measurement/midar/README.midar
+apt-get install perl ruby ruby-dev
+
+wget http://www.caida.org/tools/measurement/mper/downloads/mper-0.4.1.tar.gz
+tar zxvf mper-0.4.1.tar.gz
+cd mper-0.4.1/
+./configure
+make
+make install
+cd ../
+
+wget http://www.caida.org/tools/measurement/rb-mperio/downloads/rb-mperio-0.3.3.gem
+gem install rb-mperio-0.3.3.gem
+
+wget http://www.caida.org/tools/utilities/arkutil/downloads/arkutil-0.13.5.gem
+gem install arkutil-0.13.5.gem
+
+wget http://www.caida.org/tools/measurement/midar/downloads/midar-0.6.0.tar.gz
+tar zxvf midar.tar.gz
+cd midar
+./configure
+make
+cd ../
+
+#back to previous pwd.
+cd $pwd
