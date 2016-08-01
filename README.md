@@ -1,6 +1,6 @@
 ##使用方法：
 * 添加lib目录
-    * 在/etc/ld.conf文件中添加如下行：include /usr/local/lib，之后在终端输入如下命令：ldconfig。
+    * 在/etc/ld.conf文件中添加如下行：include /usr/local/lib，之后在终端输入如下命令：ldconfig
 * 修改config.ini文件
     * env_dir变量为依赖环境工作目录，如：env_dir=env/
     * cwd变量为拓扑测量工作目录，如：cwd=target/
@@ -11,8 +11,8 @@
     * midar_path变量代表midar可执行程序的路径
     * interface变量改为本机对外通信的网卡名称
     * mper_port变量代表mper daemon程序运行占用的端口
-    * iffinder_path, midar_path,mper_port通常不需要修改，默认值即可。
-* 第一次使用需要运行 ./setup.sh 获取依赖环境
+    * iffinder_path, midar_path,mper_port通常不需要修改，默认值即可
+* 第一次使用需要运行 ./setup.sh 获取依赖环境，或者运行./setup_offline使用env_files.tar.gz压缩包提供的环境进行离线安装
 * 运行 ./run.sh 开始进行拓扑测量和接口合并
 
 ##说明：
