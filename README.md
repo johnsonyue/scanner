@@ -1,4 +1,6 @@
 ##使用方法：
+* 添加lib目录
+    * 在/etc/ld.conf文件中添加如下行：include /usr/local/lib，之后在终端输入如下命令：ldconfig。
 * 修改config.ini文件
     * env_dir变量为依赖环境工作目录，如：env_dir=env/
     * cwd变量为拓扑测量工作目录，如：cwd=target/
