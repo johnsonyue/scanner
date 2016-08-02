@@ -24,6 +24,7 @@ class TargetPool():
 		self.asn_dict = {};
 
 		self.target_pfx_list = [];
+		self.foreign_pfx_list = [];
 		self.pfx_dict = {};
 		
 	#get target asn list.
@@ -75,7 +76,7 @@ class TargetPool():
 	
 		
 	#get target pfx list from asn list and bgp dump.
-	def get_target_pfx_list_by_cc(self, cc):
+	def get_target_pfx_list_by_cc(self, cc, is_global=True):
 		self.get_target_asn_list_by_cc(cc);
 
 		while True:
@@ -86,10 +87,12 @@ class TargetPool():
 			list = line.split('|');
 			pfx = list[5];
 			org = list[6].split(' ')[-1];
-			if (self.asn_dict.has_key(org)):
+			if (is_global or self.asn_dict.has_key(org)):
 				if (not self.pfx_dict.has_key(pfx)):
 					self.target_pfx_list.append(pfx);
 					self.pfx_dict[pfx] = "";
+					if (self.asn_dict.has_key(org)):
+						self.pfx_dict[pfx] = "c";
 	
 	#assume that mask is in range(8,32).
 	def get_class_c_ip_from_pfx(self, pfx):
@@ -110,6 +113,26 @@ class TargetPool():
 			res.append(ip_str);
 		
 		return res;
+	
+	def get_random_ip_from_pfx(self, pfx):
+		ip = pfx.split('/')[0].split('.');
+		base_ip = [];
+		for i in ip:
+			base_ip.append(int(i));
+		mask = int(pfx.split('/')[1]);
+		
+		len = int( math.pow(2,(32-mask)) );
+		#rand = random.randint( (0 if mask==31 else 1),len-(1 if mask==31 else 2) );
+		rand = random.randint(0, len-1);
+		
+		base_ip[3] = (base_ip[3] + rand) % 256;
+		r1 = (base_ip[3] + rand) / 256;
+		base_ip[2] = (base_ip[2] + r1) % 256;
+		r2 = (base_ip[2] + r1) / 256;
+		base_ip[1] = (base_ip[1] + r2);
+		res = str(base_ip[0])+"."+str(base_ip[1])+"."+str(base_ip[2])+"."+str(base_ip[3]);
+
+		return res;
 		
 	
 	def get_target_ip_list_from_pfx(self, cc, file_name):
@@ -117,8 +140,12 @@ class TargetPool():
 		fp = open(self.cwd+"/"+file_name, 'wb');
 		
 		for pfx in self.target_pfx_list:
-			for ip in self.get_class_c_ip_from_pfx(pfx):
-				fp.write(ip+'\n');
+			flag = self.pfx_dict[pfx];
+			if (flag == "c"):
+				for ip in self.get_class_c_ip_from_pfx(pfx):
+					fp.write(ip+'\n');
+			elif(pfx!="0.0.0.0/0"):
+				fp.write(self.get_random_ip_from_pfx(pfx)+'\n');
 		
 		fp.close();
 
