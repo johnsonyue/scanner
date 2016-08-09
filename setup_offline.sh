@@ -63,4 +63,4 @@ make
 cd ../
 
 #back to previous pwd.
-cd $pwd
+cd $cwd
