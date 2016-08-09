@@ -13,7 +13,6 @@
     * mper_port变量代表mper daemon程序运行占用的端口
     * iffinder_path, midar_path,mper_port通常不需要修改，默认值即可
 * 第一次使用需要运行 ./setup.sh 获取依赖环境，或者运行./setup_offline使用env_files.tar.gz压缩包提供的环境进行离线安装
-* 如果使用./setup.sh进行在线安装，需要注释吊midar-0.6.0/midar/lib 文件夹下的infile.cc文件中的if ... throw Mismatch两行。
 * 运行 ./run.sh 开始进行拓扑测量和接口合并
 
 ##说明：
