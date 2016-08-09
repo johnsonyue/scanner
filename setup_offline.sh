@@ -15,6 +15,7 @@ apt-get install -y libbz2-dev zlib1g-dev
 #wget http://www.ris.ripe.net/source/bgpdump/libbgpdump-1.4.99.15.tgz
 tar zxvf libbgpdump-1.4.99.15.tgz
 cd libbgpdump-1.4.99.15/
+./configure
 make
 make install
 cd ../
