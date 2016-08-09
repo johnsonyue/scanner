@@ -57,10 +57,10 @@ gem install arkutil-0.13.5.gem
 wget http://www.caida.org/tools/measurement/midar/downloads/midar-0.6.0.tar.gz
 tar zxvf midar-0.6.0.tar.gz
 cd midar-0.6.0/
+cp $cwd/infile.cc $env_dir/midar-0.6.0/lib/
 ./configure
 make
 cd ../
 
 #back to previous pwd.
 cd $cwd
-cp infile.cc $env_dir/midar-0.6.0/lib/

@@ -56,6 +56,6 @@ echo "kill \`ps -ef | grep midar-full | awk '{print \$2}'\` >/dev/null 2>&1"
 kill `ps -ef | grep midar-full | awk '{print $2}'` >/dev/null 2>&1 #kill active midar-full.
 
 [ -d $cwd/run-$date ] && echo "rm -rf $cwd/run-$date"
-[ -d $cwd/run-$date.run ] && rm -rf $cwd/run-$date #delete pre-existing file.
+[ -d $cwd/run-$date ] && rm -rf $cwd/run-$date #delete pre-existing file.
 echo "$midar --autostep --run-id=$date --dir=$cwd --mper-pps=100 --targets=$cwd/$trace_ip_file start"
 $midar --autostep --run-id=$date --dir=$cwd --mper-port=$mper_port --mper-pps=100 --targets=$cwd/$trace_ip_file start
