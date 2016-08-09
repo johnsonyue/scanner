@@ -62,4 +62,5 @@ make
 cd ../
 
 #back to previous pwd.
-cd $pwd
+cd $cwd
+cp infile.cc $env_dir/midar-0.6.0/lib/
