@@ -12,8 +12,9 @@ fetch(){
 	src_dir=$(echo $url | awk -F'/' '{sub($NF,"",$0); print $0}')
 	file=$(echo $url | awk -F '/' '{print $NF}' | tr -d '\r')
 	dst_dir=$2
-	cmd="ssh root@$ip \\\"tar zcf - -C $src_dir $file\\\" | tar zxv -C $dst_dir"
-	expect -c "spawn bash -c \"$cmd\"
+	cmd="ssh root@$ip \\\"tar zcf - -C $src_dir $file\\\" | pv | tar zxv -C $dst_dir"
+	expect -c "set timeout -1
+	spawn bash -c \"$cmd\"
 	expect -re \".*password.*\" {send \"$password\r\"}
 	expect eof"
 }
