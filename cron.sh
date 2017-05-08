@@ -1,4 +1,6 @@
 #!/bin/bash
+#e.g.
+#./cron.sh 8.8.8.8 password_here "/home/*.warts" .
 [ $# -ne 4 ] && echo './cron.sh $ip $password $src_path $dst_dir' && exit
 ip=$1
 password=$2
