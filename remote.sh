@@ -30,8 +30,8 @@ cp $lookup_dir/$target_file $cwd/$target_file
 date=`date +%Y%m%d`
 out_file=$cwd/$date"."$node_name".warts"
 
-echo "scamper -c 'trace' -p 10000 -M $node_name -C $date -o $out_file -O warts -f $cwd/$target_file"
-scamper -c 'trace' -p 10000 -M $node_name -C $date -o $out_file -O warts -f $cwd/$target_file
+echo "scamper -c 'trace' -p 1000 -M $node_name -C $date -o $out_file -O warts -f $cwd/$target_file"
+scamper -c 'trace' -p 1000 -M $node_name -C $date -o $out_file -O warts -f $cwd/$target_file
 ln -s $cwd/$target_file $cwd/$target_file".sync"
 
 #get trace ip for alias resolution.
