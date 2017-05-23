@@ -7,6 +7,7 @@ trace_ip_file=$(awk -F " *= *" '/trace_ip_file/ {print $2}' config.ini)
 node_name=$(awk -F " *= *" '/node_name/ {print $2}' config.ini)
 
 env_dir=$(awk -F " *= *" '/env_dir/ {print $2}' config.ini)
+lookup_dir=$(awk -F " *= *" '/lookup_dir/ {print $2}' config.ini)
 iffinder_path=$(awk -F " *= *" '/iffinder_path/ {print $2}' config.ini)
 midar_path=$(awk -F " *= *" '/midar_path/ {print $2}' config.ini)
 iffinder=$env_dir/$iffinder_path
@@ -17,10 +18,13 @@ mper_port=$(awk -F " *= *" '/mper_port/ {print $2}' config.ini)
 [ -d $cwd ] && exit 1
 [ ! -d $cwd ] && echo "mkdir -p $cwd"
 [ ! -d $cwd ] && mkdir -p $cwd
+[ ! -d $lookup_dir ] && echo "mkdir -p $lookup_dir"
+[ ! -d $lookup_dir ] && mkdir -p $lookup_dir
 
 #get and dump latest bgp snapshot and get the target ip list.
-echo "bgpdump -m \`python routeviews.py $cwd\` | python target.py "CN" $cwd $target_file";
-bgpdump -m `python routeviews.py $cwd` | python target.py "CN" $cwd $target_file
+echo "bgpdump -m \`python routeviews.py $lookup_dir\` | python target.py "CN" $lookup_dir $target_file";
+bgpdump -m `python routeviews.py $lookup_dir` | python target.py "CN" $lookup_dir $target_file
+cp $lookup_dir/$target_file $cwd/$target_file
 
 #start scanning with scamper.
 date=`date +%Y%m%d`
