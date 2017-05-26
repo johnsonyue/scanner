@@ -2,7 +2,6 @@
 [ $# -ne 2 ] && echo './remote.sh $cwd $src_dir' && exit
 cwd=$1
 
-pwd=$(pwd)
 src_dir=$2
 cd $src_dir
 
@@ -36,21 +35,28 @@ out_file=$cwd/$date"."$node_name".warts"
 
 echo "scamper -c 'trace' -p 1000 -M $node_name -C $date -o $out_file -O warts -f $cwd/$target_file"
 scamper -c 'trace' -p 1000 -M $node_name -C $date -o $out_file -O warts -f $cwd/$target_file
-ln -s $cwd/$target_file $cwd/$target_file".sync"
+pwd=$(pwd)
+cd $cwd
+tar zcvf $target_file.tar.gz $target_file
+cd $pwd
 
 #get trace ip for alias resolution.
 echo "sc_analysis_dump $out_file | python parser.py $cwd $trace_ip_file"
 sc_analysis_dump $out_file | python parser.py $cwd $trace_ip_file
-ln -s $cwd/$trace_ip_file $cwd/$trace_ip_file".sync"
+pwd=$(pwd)
+cd $cwd
+tar zcvf $trace_ip_file.tar.gz $trace_ip_file
+cd $pwd
 
 #alias resolution with iffinder.
 out_file_iffinder=$cwd/$date"."$node_name".iffinder"
 kill `ps -ef | grep iffinder | awk '{print $2}'` >/dev/null 2>&1 #kill active iffinder.
 echo "$iffinder -d -o $out_file_iffinder -c 100 -r 300 $cwd/$trace_ip_file"
 $iffinder -d -o $out_file_iffinder -c 100 -r 300 $cwd/$trace_ip_file
-ls "$cwd/*iffinder*" | awk -F'/' '{print $NF}' | while read line; do ln -s $cwd/$line $cwd/$line".sync"
+pwd=$(pwd)
+cd $cwd
+ls "*iffinder*" | awk -F'/' '{print $NF}' | while read line; do tar zcvf $line.tar.gz $line; done
+cd $pwd
 
 #spawn finish flag.
 touch $cwd/finish
-
-cd $pwd
