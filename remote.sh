@@ -1,6 +1,10 @@
 #!/bin/bash
-[ $# -ne 1 ] && echo './remote.sh $cwd' && exit
+[ $# -ne 2 ] && echo './remote.sh $cwd $src_dir' && exit
 cwd=$1
+
+pwd=$(pwd)
+src_dir=$2
+cd $src_dir
 
 target_file=$(awk -F " *= *" '/target_file/ {print $2}' config.ini)
 trace_ip_file=$(awk -F " *= *" '/trace_ip_file/ {print $2}' config.ini)
@@ -48,3 +52,5 @@ ls "$cwd/*iffinder*" | awk -F'/' '{print $NF}' | while read line; do ln -s $cwd/
 
 #spawn finish flag.
 touch $cwd/finish
+
+cd $pwd
