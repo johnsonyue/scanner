@@ -38,6 +38,7 @@ scamper -c 'trace' -p 1000 -M $node_name -C $date -o $out_file -O warts -f $cwd/
 pwd=$(pwd)
 cd $cwd
 tar zcvf $target_file.tar.gz $target_file
+tar zcvf $out_file.tar.gz $out_file
 cd $pwd
 
 #get trace ip for alias resolution.
@@ -55,7 +56,7 @@ echo "$iffinder -d -o $out_file_iffinder -c 100 -r 300 $cwd/$trace_ip_file"
 $iffinder -d -o $out_file_iffinder -c 100 -r 300 $cwd/$trace_ip_file
 pwd=$(pwd)
 cd $cwd
-ls "*iffinder*" | awk -F'/' '{print $NF}' | while read line; do tar zcvf $line.tar.gz $line; done
+ls "$cwd/*iffinder*" | awk -F'/' '{print $NF}' | while read line; do tar zcvf $line.tar.gz $line; done
 cd $pwd
 
 #spawn finish flag.
