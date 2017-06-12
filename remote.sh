@@ -56,7 +56,7 @@ echo "$iffinder -d -o $out_file_iffinder -c 100 -r 300 $cwd/$trace_ip_file"
 $iffinder -d -o $out_file_iffinder -c 100 -r 300 $cwd/$trace_ip_file
 pwd=$(pwd)
 cd $cwd
-ls "$cwd/*iffinder*" | awk -F'/' '{print $NF}' | while read line; do tar zcvf $line.tar.gz $line; done
+ls "$cwd/*iffinder.out" | awk -F'/' '{print $NF}' | while read line; do tar zcvf $line.tar.gz $line; done
 cd $pwd
 
 #spawn finish flag.

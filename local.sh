@@ -62,6 +62,16 @@ check_remote(){
 	fi
 }
 
+set_state(){
+	date=$1
+	state=$2
+	if [ -z "$(grep $date state)" ]; then
+		echo $date" "$state >>state
+	else
+		sed -i "s/^$date.*/$date $state/g" state
+	fi
+}
+
 echo "> start_remote $user $remote_ip $ssh_port $password"
 start_remote $user $remote_ip $ssh_port $password
 while true; do
@@ -73,5 +83,8 @@ while true; do
 	[ ! -z $date"" ] && break
 	[ $time_used -lt 200 ] && echo "> sleep $((200-time_used))" && sleep $((200-time_used)) #check remote every five minutes.
 done
+
+date2set=$(echo "$cwd" | sed "s/\/$//g" | sed "s/.*\///g")
+set_state $date2set "local"
 
 exit
