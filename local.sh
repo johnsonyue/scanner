@@ -49,17 +49,10 @@ check_remote(){
 	
 	sync_files $user $remote_ip $ssh_port $password
 
-	is_finished=0
 	expect -c "set timeout -1
 	spawn ssh $user@$remote_ip -p $ssh_port \"ls $cwd\"
 	expect -re \".*password.*\" {send \"$password\r\"}
-	expect eof" | while read line; do [ "$line" == "finish" ] && is_finished=1; [ ! -z $(echo $line | grep "warts") ] && date=$(echo $line | awk -F'.' '{print $1}'); done
-
-	if [ $is_finished -eq 1 ]; then
-		echo $date
-	else
-		echo ""
-	fi
+	expect eof" | while read line; do [ "$line" == "finish" ] && echo "finish"; done
 }
 
 set_state(){
@@ -80,7 +73,7 @@ while true; do
 	date=$(check_remote $user $remote_ip $ssh_port $password | tail -n 1)
 	end_ts=$(date +%s)
 	time_used=$((end_ts-start_ts))
-	[ ! -z $date"" ] && break
+	[ "$date" == "finish" ] && break
 	[ $time_used -lt 200 ] && echo "> sleep $((200-time_used))" && sleep $((200-time_used)) #check remote every five minutes.
 done
 
