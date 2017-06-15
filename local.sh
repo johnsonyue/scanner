@@ -52,7 +52,7 @@ check_remote(){
 	expect -c "set timeout -1
 	spawn ssh $user@$remote_ip -p $ssh_port \"ls $cwd\"
 	expect -re \".*password.*\" {send \"$password\r\"}
-	expect eof" | while read line; do [ "$line" == "finish" ] && echo "finish"; done
+	expect eof" | while read line; do echo $line | grep "finish"; done
 }
 
 set_state(){
@@ -73,7 +73,7 @@ while true; do
 	date=$(check_remote $user $remote_ip $ssh_port $password | tail -n 1)
 	end_ts=$(date +%s)
 	time_used=$((end_ts-start_ts))
-	[ "$date" == "finish" ] && break
+	[ "$date" == "finish" ] && echo "finish" && break
 	[ $time_used -lt 200 ] && echo "> sleep $((200-time_used))" && sleep $((200-time_used)) #check remote every five minutes.
 done
 
