@@ -53,7 +53,7 @@ cd $pwd
 out_file_iffinder=$cwd/$date"."$node_name".iffinder"
 kill `ps -ef | grep iffinder | awk '{print $2}'` >/dev/null 2>&1 #kill active iffinder.
 echo "$iffinder -d -o $out_file_iffinder -c 100 -r 300 $cwd/$trace_ip_file"
-$iffinder -d -o $out_file_iffinder -c 100 -r 300 $cwd/$trace_ip_file
+$iffinder -d -o $out_file_iffinder -c 400 -r 1000 $cwd/$trace_ip_file
 wait
 pwd=$(pwd)
 cd $cwd
