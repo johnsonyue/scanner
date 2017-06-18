@@ -73,7 +73,7 @@ while true; do
 	date=$(check_remote $user $remote_ip $ssh_port $password | tail -n 1)
 	end_ts=$(date +%s)
 	time_used=$((end_ts-start_ts))
-	[ "$date" == "finish" ] && echo "finish" && break
+	[ ! -z "$(echo $date | grep "finish")" ] && echo "finish" && break
 	[ $time_used -lt 200 ] && echo "> sleep $((200-time_used))" && sleep $((200-time_used)) #check remote every five minutes.
 done
 
