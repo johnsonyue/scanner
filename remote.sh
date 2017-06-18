@@ -52,18 +52,12 @@ cd $pwd
 #alias resolution with iffinder.
 out_file_iffinder=$cwd/$date"."$node_name".iffinder"
 kill `ps -ef | grep iffinder | awk '{print $2}'` >/dev/null 2>&1 #kill active iffinder.
-echo "$iffinder -d -o $out_file_iffinder -c 100 -r 300 $cwd/$trace_ip_file"
+echo "$iffinder -d -o $out_file_iffinder -c 200 -r 500 $cwd/$trace_ip_file"
 $iffinder -d -o $out_file_iffinder -c 200 -r 500 $cwd/$trace_ip_file
-wait
 pwd=$(pwd)
 cd $cwd
-ls "$cwd"
-ls "$cwd/*iffinder*"
-while [ $! -ne 0 ]; do
-	sleep 200
-	ls "$cwd/*iffinder*"
-done
-ls "$cwd/*iffinder*" | awk -F'/' '{print $NF}' | while read line; do tar zcvf $line.tar.gz $line; done
+while 1; do [ ! -z "$(ls $cwd | grep 'iffinder.out')" ] && break; sleep 200; done
+ls $cwd/*iffinder.out | awk -F'/' '{print $NF}' | while read line; do tar zcvf $line.tar.gz $line; done
 cd $pwd
 
 #spawn finish flag.
