@@ -37,7 +37,7 @@ echo "scamper -c 'trace' -p 1000 -M $node_name -C $date -o $out_file -O warts -f
 scamper -c 'trace' -p 1000 -M $node_name -C $date -o $out_file -O warts -f $cwd/$target_file
 pwd=$(pwd)
 cd $cwd
-out_file_name=$(echo $out_file | sed "^.*\///g")
+out_file_name=$(echo $out_file | sed "s/^.*\///g")
 tar zcvf $target_file.tar.gz $target_file
 tar zcvf $out_file.tar.gz $out_file_name
 cd $pwd
@@ -58,7 +58,7 @@ $iffinder -d -o $out_file_iffinder -c 200 -r 500 $cwd/$trace_ip_file
 pwd=$(pwd)
 cd $cwd
 while true; do [ ! -z "$(ls $cwd | grep 'iffinder.out')" ] && break; sleep 200; done
-ls $cwd/*iffinder.out | awk -F'/' '{print $NF}' | while read line; do tar zcvf $line.tar.gz $(echo $line | sed "^.*\///g"); done
+ls $cwd/*iffinder.out | awk -F'/' '{print $NF}' | while read line; do tar zcvf $line.tar.gz $(echo $line | sed "s/^.*\///g"); done
 cd $pwd
 
 #spawn finish flag.
